@@ -375,5 +375,178 @@ s5 <- 'single quote ' within single quote''
     print(list.data)
     
     # Accessing List elements
+    print(list.data[2]) # by index
+    print(list.data$dimensions) # by column name 
     
+    # Manupulating List Elements 
+    list.data[7] <- 'test' # Add new element , same for update
+    print(list.data)
+    
+    list.data[7] <- NULL # Removing the column
+    list.data[6] <- NULL
+    
+    # Merging Lists 
+    list1 <- list(1,3,4)
+    list2 <- list("Today","Tomm","Day after")
+    
+    merge.list <- c(list1,list2)
+    print(merge.list)
+    
+    # Converting list to vector 
+    v1 <- unlist(list1)
+    print(v1)
+    
+    print(list1)
+    
+ # Matrix - 2 Dimensional same data type mostly numerical helps in easier calculations
+    # Syntax for creation
+    matrix(data = ,nrow = ,ncol = byrow = , dimnames)
+    
+    rownames <- c('r1','r2','r3')
+    colnames <- c('c1','c2','c3')
+    mat1 <- matrix(data = c(1:9),nrow = 3,ncol = 3,byrow = TRUE,dimnames = list(rownames,colnames))
+    print(mat1)    
+    mat2 <- matrix(data = c(1:9),nrow = 3,ncol = 3,byrow = FALSE,dimnames = list(rownames,colnames))
+    print(mat2)    
+
+    # Accessing Elements of matrix
+    mat[rownum,colnum]
+    
+    print(mat1[1,2])
+    print(mat1[2,3])
+    
+    print(mat1[2,])    
+    print(mat1[,3])    
+
+    # Matrix Computation - The matrices involved should be of same dimension
+    mat.sum <- mat1 + mat2
+    print(mat.sum)
    
+    mat.sub <- mat.sum - mat1 
+    print(mat.sub)
+
+    mat.mul <- mat1 * mat2
+    print(mat.mul)
+    
+    mat.div <- mat.mul / mat1 
+    print(mat.div)
+    
+# Arrays 
+    # More than 2 Dimensions , same data type
+    # Create two vectors of different lengths.
+    vector1 <- c(5,9,3)
+    vector2 <- c(10,11,12,13,14,15)
+    column.names <- c("COL1","COL2","COL3")
+    row.names <- c("ROW1","ROW2","ROW3")
+    matrix.names <- c("Matrix1","Matrix2")
+    
+    # Take these vectors as input to the array.
+    result <- array(c(vector1,vector2),dim = c(3,3,2),dimnames = list(row.names,column.names,
+                                                                      matrix.names))
+    print(result)
+
+    # Accessing array elements is same as matrices and have to keep track of the dimension
+    # Manupulating array elments and computations are also same as matrices
+    
+    # Calculations accross the array element
+    # syntax apply(x, margin, fun)
+    result.col1.sum <- apply(result,c(1,2),sum)
+    print(result.col1.sum)
+  
+# Factors
+    # for category values that contain limited unique values 
+    dir_vec <- c('East','West','North','South','East','West','North','South','East','West','North','South')
+    print(class(dir_vec))
+    print(dir_vec)
+    print(is.factor(dir_vec))
+    
+    dir_factor <- factor(dir_vec)    
+    print(class(dir_factor))    
+    print(is.factor(dir_factor))    
+    dir_factor
+    
+    # Factors in data frame
+     # Create the vectors for data frame.
+    height <- c(132,151,162,139,166,147,122)
+    weight <- c(48,49,66,53,67,52,40)
+    gender <- c("male","male","female","female","male","female","male")
+    
+    # Create the data frame.
+    input_data <- data.frame(height,weight,gender)
+    print(input_data)
+    
+    # Test if the gender column is a factor.
+    print(is.factor(input_data$gender))
+    
+    # Print the gender column so see the levels.
+    print(input_data$gender)
+    
+    # Re order factor levels
+    dir_factor <- factor(dir_vec,levels = c('North','South','East','West'))    
+    print(class(dir_factor))    
+    print(is.factor(dir_factor))    
+    dir_factor
+   
+    # Generating Factor labels 
+    gl(n,k,labels)
+    
+    v <- gl(3, 4, labels = c("Tampa", "Seattle","Boston"))
+    print(v)
+
+  # Data Frames 
+    # Most Frequently used for data science as it is the tabular data with multiple data type columns
+    # Each column and row should have unique names 
+    
+    # Create data frame
+    mul_c1 <- c('Gopi',10,TRUE)
+    mul_c2 <- c('Geerthy',10,TRUE)
+    mul_c3 <- c('Nila',10,TRUE)
+    test_df <- data.frame(mul_c1,mul_c2,mul_c3)
+    print(test_df)
+    
+    str(test_df) # structure of df
+    str(input_data)
+    
+    summary(test_df) # summary of df
+    summary(input_data)
+    
+    # extract data from data frame
+    
+    print(input_data$height)
+    print(c(input_data$height,input_data$weight)) # this is a 1D list not a 2 columns
+    
+    inp_ht_wt <- data.frame(input_data$height,input_data$weight)
+    print(inp_ht_wt) 
+    
+    # for rows
+    test_df[1:2,]
+        
+    test_df[1:2,2]
+    
+    # Add new column 
+    test_df$new_col <- as.factor(c('Manoj',1,FALSE))
+    test_df     
+    
+    # Add new rows  - This is like appending one data frame to another 
+    mul_c1 <- c('Gopi1',10,TRUE)
+    mul_c2 <- c('Geerthy1',10,TRUE)
+    mul_c3 <- c('Nila1',10,TRUE)
+    new_col <- c('Manoj',10,TRUE)
+    test_df1 <- data.frame(mul_c1,mul_c2,mul_c3,new_col)
+    
+    str(test_df)
+    str(test_df1)
+    
+    test_df2 <- rbind(test_df1,test_df)
+    str(test_df2)        
+    print(test_df2)
+
+  # R Library
+    .libPaths()   # To display library installation path
+    library() # list installed packages
+    
+    install.packages("XML")
+    
+  # Reshaping
+    
+     
