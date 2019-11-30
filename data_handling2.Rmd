@@ -1,0 +1,101 @@
+---
+title: "R Notebook to handle XML, JSON and Web data  files"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+install.packages('XML')
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+# Verify the installations
+any(grepl("XML",installed.packages()))
+library('XML')
+library('methods')
+```
+
+```{r}
+# Parse the XMl 
+result <- xmlParse(file = 'emp.xml')
+rootnode <- xmlRoot(result)
+rootsize <- xmlSize(result)
+print(rootnode[1])
+print(rootsize)
+```
+```{r}
+# Different elements
+# Get the first element of the first node.
+print(rootnode[[1]][[1]])
+```
+
+
+```{r}
+# Get the fifth element of the first node.
+print(rootnode[[1]][[5]])
+
+# Get the second element of the third node.
+print(rootnode[[3]][[2]])
+```
+
+# XML to data frame
+```{r}
+xmldataframe <- xmlToDataFrame("emp.xml")
+print(xmldataframe)
+```
+
+HANDLING JSOM Data File
+
+```{r}
+install.packages('rjson')
+library(rjson)
+```
+```{r}
+# Read JSON File
+emp_rjson <- fromJSON(file = 'emp.json')
+print(emp_rjson)
+```
+```{r}
+# Convert into data frame
+emp_json_df <- as.data.frame(emp_rjson)
+print(emp_json_df)
+```
+
+Download the data files from WEb in the form of csv 
+```{r}
+
+install.packages("RCurl")
+install.packages("XML")
+install.packages("stringr")
+install.packages("plyr")
+
+library('RCurl')
+library('XML') 
+library('stringr')
+library('plyr')
+# set the url
+url <- "http://www.geos.ed.ac.uk/~weather/jcmb_ws/"
+# Gather the html links present in the webpage.
+links <- getHTMLLinks(url)
+# Identify only the links which point to the JCMB 2015 files. 
+filenames <- links[str_detect(links, "JCMB_2015")]
+# Store the file names as a list.
+filenames_list <- as.list(filenames)
+# Create a function to download the files by passing the URL and filename list.
+downloadcsv <- function (mainurl,filename) {
+   filedetails <- str_c(mainurl,filename)
+   download.file(filedetails,filename)
+}
+l_ply(filenames,downloadcsv,mainurl = "http://www.geos.ed.ac.uk/~weather/jcmb_ws/")
+
+```
+
