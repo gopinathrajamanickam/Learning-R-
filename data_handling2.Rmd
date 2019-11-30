@@ -83,7 +83,7 @@ library('XML')
 library('stringr')
 library('plyr')
 # set the url
-url <- "http://www.geos.ed.ac.uk/~weather/jcmb_ws/"
+url <- "https://www.geos.ed.ac.uk/~weather/jcmb_ws/"
 # Gather the html links present in the webpage.
 links <- getHTMLLinks(url)
 # Identify only the links which point to the JCMB 2015 files. 
