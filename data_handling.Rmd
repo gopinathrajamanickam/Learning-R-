@@ -1,0 +1,53 @@
+---
+title: "R Notebook to handle csv file as data frame "
+output: html_notebook
+---
+
+```{r}
+getwd()
+library(rlang)
+emp_df <- read.csv('emp.csv')
+View(emp_df)
+print(emp_df)
+```
+
+```{r}
+print(is.data.frame(emp_df))
+print(ncol(emp_df))
+print(nrow(emp_df))
+```
+```{r}
+# Get the maximum salary 
+print(max(emp_df$salary))
+```
+
+```{r}
+# Get the employee details with maximum salary 
+m_sal <- max(emp_df$salary)
+m_sal_emp <- subset(emp_df,salary == m_sal)
+print(m_sal_emp)
+```
+```{r}
+# Get people working in IT
+it_emp_df <- subset(emp_df,dept == 'IT')
+print(it_emp_df)
+```
+```{r}
+# Employees whose salary > 600 in IT dept
+high_paid_emp_df <- subset(emp_df,salary > 600 & dept == 'IT')
+print(high_paid_emp_df)
+```
+
+```{r}
+# People joined after 2014
+new_emp_df <- subset(emp_df,as.Date(start_date) > as.Date('2014-01-01'))
+print(new_emp_df)
+```
+
+```{r}
+# Write to csv 
+write.csv(new_emp_df,"new_emp.csv")
+n_emp_df <- read.csv('new_emp.csv')
+print(n_emp_df)
+```
+
