@@ -548,5 +548,101 @@ s5 <- 'single quote ' within single quote''
     install.packages("XML")
     
   # Reshaping
+    install.packages("reshape")
+    library(reshape)
+    # Create vector objects.
+    city <- c("Tampa","Seattle","Hartford","Denver")
+    state <- c("FL","WA","CT","CO")
+    zipcode <- c(33602,98104,06161,80294)
     
+    # Combine above three vectors into one data frame.
+    addresses <- cbind(city,state,zipcode)
+    add1 <- c(city,state,zipcode)
+    
+    class(add1)
+    class(addresses)
+    
+    print(add1)
+    print(addresses)
+    
+    library(MASS)
+    View(Pima.te)
+    summary(Pima.te)
+    
+    View(Pima.tr)
+    
+    merged.Pima <- merge(x=Pima.te,y=Pima.tr,
+                         by.x = c('bp','bmi'),
+                         by.y = c('bp','bmi')
+    )
+    print(merged.Pima)
+    nrow(merged.Pima)
+
+    # Melting and Casting
+    
+    
+  print(ships)
+  View(ships)
+  molten.ships <- melt(ships,id=c('type','year'))
+  print(molten.ships)   
+  View(molten.ships)
+  
+  recasted.ship <- cast(molten.ships, type+year ~ variable, sum)  
+  
+  
+  #Air quality example
+  View(airquality)
+  
+  names(airquality) <- tolower(names(airquality))
+  
+  aqm <- melt(airquality, id=c("month", "day"), na.rm=TRUE)
+  typeof(aqm)
+  class(aqm)
+  typeof(airquality)
+  class(aqm)
+  
+  cast(aqm, day ~ month ~ variable) # ~ sign is to indicate the dependency of variables in this  case 
+                                    # it was refering to make a matrix of day month and the variable value 
+                                    # since there are four variables in this data set ozone. solar.r , Wind and temp 
+                                    # this will be creating a matrix for each of them
+  cast(aqm, month ~ variable, mean) # To get the mean of each variable month wise 
+  cast(aqm, month ~ . | variable, mean) 
+  cast(aqm, month ~ variable, mean, margins=c("grand_row", "grand_col")) # Total across rows and cols
+  cast(aqm, day ~ month, mean, subset=variable=="ozone") # the casting only for ozone
+  cast(aqm, month ~ variable, range) # similar to mean but his calculates the min and max values for each variable
+  cast(aqm, month ~ variable + result_variable, range)
+  cast(aqm, variable ~ month ~ result_variable,range)
+  
+  #Chick weight example
+  names(ChickWeight) <- tolower(names(ChickWeight))
+  View(ChickWeight)
+  chick_m <- melt(ChickWeight, id=2:4, na.rm=TRUE)
+  
+  cast(chick_m, time ~ variable, mean) # average effect of time
+  cast(chick_m, diet ~ variable, mean) # average effect of diet
+  cast(chick_m, diet ~ time ~ variable, mean) # average effect of diet & time
+  
+  # How many chicks at each time? - checking for balance
+  cast(chick_m, time ~ diet, length)
+  cast(chick_m, chick ~ time, mean)
+  cast(chick_m, chick ~ time, mean, subset=time < 10 & chick < 20)
+  
+  cast(chick_m, diet + chick ~ time)
+  cast(chick_m, chick ~ time ~ diet)
+  cast(chick_m, diet + chick ~ time, mean, margins="diet")
+  
+  #Tips example
+  cast(melt(tips), sex ~ smoker, mean, subset=variable=="total_bill")
+  cast(melt(tips), sex ~ smoker | variable, mean)
+  
+  cast(ff_d, subject ~ time, length)
+  cast(ff_d, subject ~ time, length, fill=0)
+  cast(ff_d, subject ~ time, function(x) 30 - length(x))
+  cast(ff_d, subject ~ time, function(x) 30 - length(x), fill=30)
+  cast(ff_d, variable ~ ., c(min, max))
+  cast(ff_d, variable ~ ., function(x) quantile(x,c(0.25,0.5)))
+  cast(ff_d, treatment ~ variable, mean, margins=c("grand_col", "grand_row"))
+  cast(ff_d, treatment + subject ~ variable, mean, margins="treatment")
+  
+  
      
